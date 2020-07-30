@@ -7,29 +7,36 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // String input = "";
-//        String message = "";
+        // Initialize both win conditions as false
         boolean xWins = false;
         boolean oWins = false;
+        // Tracks whose turn it is
         boolean xTurn = true;
+        // Assumes a bad input unless proven wrong within the main loop
         boolean goodInput = false;
+        // Game is not over until one side wins, or a draw occurs
         boolean finished = false;
 
+        // User input coordinates
         int a;
         int b;
 
+        // The state of the playing field
         char[] play = new char[9];
         Arrays.fill(play, '_');
         char[][] table = setTable(play);
-
+        
+        // Displays table at beginning of game
         showTable(table);
 
+        // Main loop
         while (!xWins && !oWins && !finished) {
 
             goodInput = false;
 
             System.out.println("Enter the coordinates: ");
 
+            // Handles the case that user input is not numbers
             if (scanner.hasNextInt()) {
                 a = scanner.nextInt();
             } else {
@@ -45,6 +52,7 @@ public class Main {
                 continue;
             }
 
+            // Handles coordinates outside of the playing area and already occupied cells
             if (a > 3 || a < 1 || b > 3 || b < 1) {
                 System.out.println("Coordinates should be from 1 to 3!");
                 continue;
@@ -55,6 +63,7 @@ public class Main {
                 goodInput = true;
             }
 
+            // If the input satisfies the previous conditions, a move is made 
             if (goodInput) {
                 if (xTurn) {
                     xMove(a, b, play);
@@ -95,7 +104,7 @@ public class Main {
                 }
             }
 
-            // \ Diagonal win
+            // Top left to bottom right (\) Diagonal win
             if (input.charAt(0) == input.charAt(4) && input.charAt(4) == input.charAt(8)){
                 if (input.charAt(0) == 'X') {
                     xWins = true;
@@ -105,7 +114,7 @@ public class Main {
                     break;
                 }
             }
-            // / Diagonal win
+            // Top right to bottom left (/) Diagonal win
             if (input.charAt(2) == input.charAt(4) && input.charAt(4) == input.charAt(6)){
                 if (input.charAt(2) == 'X') {
                     xWins = true;
@@ -116,6 +125,7 @@ public class Main {
                 }
             }
 
+            // If there are still empty spaces, the game is not over
             if (input.contains("_")) {
                 finished = false;
             } else {
@@ -132,121 +142,9 @@ public class Main {
             System.out.println("Draw");
         }
 
-
-
-        /*
-        // Horizontal win
-        if (input.contains("XXX")) {
-            if (input.indexOf("XXX") % 3 == 0){
-                xWins = true;
-            }
-        } else if (input.contains("OOO")) {
-            if (input.indexOf("OOO") % 3 == 0){
-                oWins = true;
-            }
-        }
-        // Vertical win
-        for (int i = 0; i < 3; i++) {
-            if (input.charAt(i) == input.charAt(i + 3) && input.charAt(i) == input.charAt(i + 6)){
-                if (input.charAt(i) == 'X') {
-                    xWins = true;
-                }
-                if (input.charAt(i) == 'O') {
-                    oWins = true;
-                }
-            }
-        }
-
-        // \ Diagonal win
-        if (input.charAt(0) == input.charAt(4) && input.charAt(4) == input.charAt(8)){
-            if (input.charAt(0) == 'X') {
-                xWins = true;
-            } else if (input.charAt(0) == 'O') {
-                oWins = true;
-            }
-        }
-        // / Diagonal win
-        if (input.charAt(2) == input.charAt(4) && input.charAt(4) == input.charAt(6)){
-            if (input.charAt(2) == 'X') {
-                xWins = true;
-            } else if (input.charAt(2) == 'O') {
-                oWins = true;
-            }
-        }
-         */
-
-        /* System.out.println("Enter cells: " + input);
-        int x = 0;
-        int o = 0;
-
-        System.out.println("---------");
-        System.out.println("| " + table[0][0] + " " + table[0][1] + " " + table[0][2] + " |");
-        System.out.println("| " + table[1][0] + " " + table[1][1] + " " + table[1][2] + " |");
-        System.out.println("| " + table[2][0] + " " + table[2][1] + " " + table[2][2] + " |");
-        System.out.println("---------");
-        System.out.println("Enter the coordinates: ");
-
-        boolean goodInput = false;
-
-        int a = 0;
-        int b = 0;
-
-        while (!goodInput) {
-            a = scanner.nextInt();
-            b = scanner.nextInt();
-
-            if (a > 3 || a < 1 || b > 3 || b < 1) {
-                System.out.println("Coordinates should be from 1 to 3!");
-                System.out.println("Enter the coordinates: ");
-            } else if (isOccupied(a, b, play)) {
-                System.out.println("This cell is occupied! Choose another one!");
-                System.out.println("Enter the coordinates: ");
-            } else {
-                goodInput = true;
-            }
-
-        }
-
-        play = xMove(a, b, play);
-        table = setTable(play);
-
-        System.out.println("---------");
-        System.out.println("| " + table[0][0] + " " + table[0][1] + " " + table[0][2] + " |");
-        System.out.println("| " + table[1][0] + " " + table[1][1] + " " + table[1][2] + " |");
-        System.out.println("| " + table[2][0] + " " + table[2][1] + " " + table[2][2] + " |");
-        System.out.println("---------"); */
-
-
-
-
-
-
-//        // Check if there's more cells to fill
-//        if (!xWins && !oWins) {
-//            if (input.contains("_")) {
-//                message = "Game not finished";
-//            } else {
-//                message = "Draw";
-//            }
-//        }
-//
-//        if (x - 2 >= o || o - 2 >= x) {
-//            message = "Impossible";
-//        }
-//        if (xWins) {
-//            message = "X wins";
-//        }
-//        if (oWins) {
-//            message = "O wins";
-//        }
-//
-//        if (xWins && oWins) {
-//            message = "Impossible";
-//        }
-//        System.out.println(message);
-
     }
 
+    // Method to check whether a cell is occupied
     private static boolean isOccupied(int a, int b, char[] play) {
 
         char temp = ' ';
@@ -265,6 +163,7 @@ public class Main {
         return true;
     }
 
+    // Method for x to make a move
     private static char[] xMove(int a, int b, char[] play) {
 
         char temp = ' ';
@@ -286,6 +185,8 @@ public class Main {
 
         return play;
     }
+    
+    // Method to set the table based off of the 9 character array
     private static char[][] setTable(char[] play) {
         int count = 0;
 
@@ -299,6 +200,7 @@ public class Main {
         return table;
     }
 
+    // Displays the table
     private static void showTable(char[][] table) {
         System.out.println("---------");
         System.out.println("| " + table[0][0] + " " + table[0][1] + " " + table[0][2] + " |");
@@ -307,6 +209,7 @@ public class Main {
         System.out.println("---------");
     }
 
+    // Method for o to make a move
     private static char[] oMove(int a, int b, char[] play) {
 
         char temp = ' ';
@@ -329,6 +232,7 @@ public class Main {
         return play;
     }
 
+    // Method to convert input string into character array
     private static char[] setPlay(String input) {
         char[] play = new char[9];
 
